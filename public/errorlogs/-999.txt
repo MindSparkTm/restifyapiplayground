@@ -1,0 +1,17 @@
+url:    https://twitter.com  urlstatus:   0   time:   2018-02-11 11:07:00
+url:    https://httpbin.org  urlstatus:   200   time:   2018-02-11 11:07:00
+url:    https://www.facebook.com  urlstatus:   0   time:   2018-02-11 11:07:00
+url:    https://httpb  urlstatus:   0   time:   2018-02-11 11:07:00
+url:    https://httpbin.o  urlstatus:   0   time:   2018-02-11 11:07:59
+url:    https://social.little.bz/malawi  urlstatus:   0   time:   2018-02-11 11:07:59
+url:    https://httpbin.o  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    https://www.gmail.com  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    https://social.little.bz/malawi  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    https://httpbin.o  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    https://social.little.bz/malawi  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    https://social.little.bz/nbm  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    https://social.little.bz/malawi  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    https://social.little.bz/malawi  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    www.booking.com  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    www.booking.com  urlstatus:   0   time:   2018-02-11 11:31:49
+url:    www.booking.com  urlstatus:   0   time:   2018-02-11 11:31:49
