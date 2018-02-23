@@ -68,7 +68,25 @@ app.get('/getdata',function(req,res){
             delete result[i]._id;
             if(result[i].urlstatus!='200') {
                 var data = "url:" + "    " + result[i].url + "  " + "urlstatus:" + "   " + result[i].urlstatus + "   " + "time:" + "   " + formatted + "\n";
-                fs.appendFile(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', data, {encoding: 'utf8'});
+                path.exists(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', function(exists) {
+                    if (exists) {
+                        // do something
+                        fs.appendFile(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', data, {encoding: 'utf8'});
+
+                    }
+
+                    else{
+                        fs.writeFile(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', data, function (err) {
+                            console.log("The file was succesfully saved!");
+
+                        });
+
+
+                    }
+                });
+
+
+
             }
         }
 
