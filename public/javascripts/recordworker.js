@@ -4,7 +4,7 @@ addEventListener("message", function (evt) {
     var senddata=[];
     var params = "apiKey="+evt.data+"";
 
-    var url = 'https://cryptic-headland-94862.herokuapp.com/http://188.166.102.61/getdata'+"?"+params;
+    var url = 'http://188.166.102.61/getdata'+"?"+params;
     var url1 = 'https://httpbin.org';
     console.log("url",url);
 
