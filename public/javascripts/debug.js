@@ -402,7 +402,7 @@ $("#monitordata").click(function(e) {
 
 function getdata(){
 
-    setInterval(keepmonitoringdatafromserver,10000);
+    setInterval(keepmonitoringdatafromserver,20000);
 }
 
 $("#recordedata").click(function(e){
