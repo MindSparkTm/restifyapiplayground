@@ -184,7 +184,7 @@ function callfunc(){
         console.log('Saved to db');
         console.log("st",st);
         savedatatoserver();
-        $("#apikey").val('-999');
+      //  $("#apikey").val('-999');
 
 
     }
@@ -402,7 +402,7 @@ $("#monitordata").click(function(e) {
 
 function getdata(){
 
-    setInterval(keepmonitoringdatafromserver,20000);
+    setInterval(keepmonitoringdatafromserver,120000);
 }
 
 $("#recordedata").click(function(e){
@@ -419,7 +419,9 @@ $("#recordedata").click(function(e){
 
         worker.terminate();
     }, false);
-    worker.postMessage('3598');
+   var s = $("#apikeyval").val();
+
+    worker.postMessage(s);
 
 
 
