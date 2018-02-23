@@ -66,7 +66,10 @@ app.get('/getdata',function(req,res){
         console.log("result",result);
         for(var i=0;i<result.length;i++){
             delete result[i]._id;
-
+            if(result[i].urlstatus!='200') {
+                var data = "url:" + "    " + result[i].url + "  " + "urlstatus:" + "   " + result[i].urlstatus + "   " + "time:" + "   " + formatted + "\n";
+                fs.appendFile(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', data, {encoding: 'utf8'});
+            }
         }
 
 
@@ -123,3 +126,7 @@ else cb(err); // something else went wrong
 } else cb(null); // successfully created folder
 });
 }
+
+app.get("/webworkers",function(req,res){
+    res.render('pages/runscripts.ejs');
+})

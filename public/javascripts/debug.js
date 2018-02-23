@@ -9,6 +9,10 @@ var iddata = [];
 var flagforchecking = false;
 localStorage.setItem('endpointid',"1" );
 var validapikey=false;
+var st;
+var gdata;
+var datavailable=false;
+
 function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -124,6 +128,14 @@ function postWithAjax(myajax) {
     myajax.complete = function (jqXHR) {
         $("#statuspre").text(
             "HTTP " + jqXHR.status + " " + jqXHR.statusText);
+        $('#urlstatus').val(jqXHR.status);
+        var apikey = $("#apikey").val();
+
+        st = jqXHR.status;
+        console.log("stt",st);
+        $("#apikeyval").val(apikey);
+
+
         if (jqXHR.status == 0) {
             httpZeroError();
         } else if (jqXHR.status >= 200 && jqXHR.status < 300) {
@@ -136,33 +148,8 @@ function postWithAjax(myajax) {
         $("#outputpre").text(jqXHR.responseText);
         $("#headerpre").text(jqXHR.getAllResponseHeaders());
 
+        setTimeout(callfunc,10000)
 
-      /*  $("#boxedtable").find('tbody')
-
-            .append($('<tr>')
-                .append($('<td>')
-                    .text('Url:-')
-                )
-
-                .append($('<td>')
-                    .text(myajax.url)
-                )
-                .append($('<td>')
-                    .text('Live Status-')
-                ).append($('<td>')
-                    .text(jqXHR.status)
-                )
-            )
-
-
-            .append($('<tr>')
-                .append($('<td>')
-                    .text('')
-                )
-            )*/
-
-
-        //$("#boxed").text("THis thing just changed");
     }
 
     if (jQuery.isEmptyObject(myajax.data)) {
@@ -186,13 +173,21 @@ function postWithAjax(myajax) {
     });
 
 
-     var apikey = $("#apikey").valueOf();
-     if(apikey!='-999') {
-         console.log('Saved to db');
-         savedatatoserver();
 
-     }
 
+}
+
+function callfunc(){
+    var apikey = $("#apikeyval").val();
+    console.log("apikey",apikey);
+    if(apikey!='-999') {
+        console.log('Saved to db');
+        console.log("st",st);
+        savedatatoserver();
+        $("#apikey").val('-999');
+
+
+    }
 }
 
 
@@ -309,6 +304,8 @@ if(apikey.length>0) {
             console.log("Different endpoint id");
             localStorage.setItem('endpointid', endpointid);
 
+            var status = $('#urlstatus').val();
+            console.log("status",status);
             $("#outputpress").empty();
 
             var s = {
@@ -319,7 +316,8 @@ if(apikey.length>0) {
                 "authusername": $("#authentication input:first").val(),
                 "authpassword": $("#authentication input").eq(1).val(),
                 "header": createHeaderData(),
-                "data": createUrlData()
+                "data": createUrlData(),
+                "urlstatus":$("#urlstatus").val()
             };
 
             console.log("data", JSON.stringify(s));
@@ -383,7 +381,6 @@ $("#submitajax").click(function(e) {
     });    
   }
 
-    $("#apikey").val('-999');
 
 
 
@@ -392,72 +389,42 @@ $("#submitajax").click(function(e) {
 
 
 $("#monitordata").click(function(e) {
-    var apikey = $("#apikey").val();
-    $("#apikeyval").val(apikey);
-
     $("#boxedtable").find('tbody').empty();
 
-
-    console.log("You have clicked me");
     e.preventDefault();
-    var apikey = $("#apikey").val();
 
- if(apikey!='-999') {
-     requestdatafromserver();
-     document.getElementById("monitordata").disabled = true;
-     $("#continuous").append("Continous Monitoring in Progress.......")
-     setInterval(requestdatafromserver, 60000);
- }
- else{
-     alert("Please enter a valid api Key before clicking on Monitor data");
+    keepmonitoringdatafromserver();
+    getdata();
 
- }
+
 
 });
+
+function getdata(){
+
+    setInterval(keepmonitoringdatafromserver,10000);
+}
 
 $("#recordedata").click(function(e){
     e.preventDefault();
 
-    var res = prompt("Enter your api key")
-    console.log("result",res);
-    window.open('errorlogs/'+res+".txt");
 
+    var worker = new Worker("javascripts/logworker.js");
+    worker.addEventListener('message', function(e) {
+        console.log('Worker said: ', e.data);
+        if(e.data!='404') {
+            console.log("entered");
+            document.getElementById("tst").disabled = false;
+        }
+
+        worker.terminate();
+    }, false);
+    worker.postMessage('3598');
 
 
 
 })
-function requestdatafromserver(){
 
-    var apikey = $("#apikeyval").val();
-    validapikey=true;
-        $.ajax({
-            type: 'GET',
-            url: 'getdata',
-            data:{'apiKey':apikey},
-            dataType: "json",
-            cache: false,
-            contentType: "application/json",
-
-            success: function (data) {
-                console.log("success in getting data from the server");
-
-                $.each(data, function(i, $val)
-                {
-                    datafromserver.push($val);
-                    //postwithAjax2($val);
-
-                });
-
-                console.log("datafromserver",datafromserver);
-
-
-                keepmonitoringdatafromserver();
-            }
-        })
-
-
-
-}
 
 function repeatbuttonclick(){
     setInterval(function(){
@@ -528,18 +495,52 @@ function httpZeroError() {
 }
 
 function keepmonitoringdatafromserver(){
+    $("#boxedtable").find('tbody').empty();
 
-    console.log("datafromserverfunction",datafromserver);
-    for(var i=0;i<datafromserver.length;i++){
+    var worker = new Worker("javascripts/recordworker.js");
+    worker.addEventListener('message', function(e) {
+        //  console.log('Worker said: ', e.data);
+        gdata=e.data;
+        var myObject = JSON.parse(gdata);
+        console.log(myObject);
+        for(var i=0;i<myObject.length;i++){
+            console.log(myObject[i].url + "||"+myObject[i].urlstatus);
+            $("#boxedtable").find('tbody')
 
-        postwithAjax2(datafromserver[i]);
+                .append($('<tr>')
+                    .append($('<td>')
+                        .text('Url:-')
+                    )
 
-        if(i == datafromserver.length-1){
-            datafromserver=[];
+                    .append($('<td>')
+                        .text(myObject[i].url)
+                    )
+                    .append($('<td>')
+                        .text('Live Status-')
+                    ).append($('<td>')
+                        .text(myObject[i].urlstatus)
+                    )
+                )
+
+
+                .append($('<tr>')
+                    .append($('<td>')
+                        .text('')
+                    )
+                )
+
+
         }
 
 
-    }
+        worker.terminate();
+    }, false);
+
+    var apik = $("#apikey").val();
+
+    worker.postMessage(apik);
+
+
 
 }
 

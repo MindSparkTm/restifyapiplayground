@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script src="javascripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            document.getElementById("tst").disabled = true;
+            var i =0;
+            if (!Modernizr.webworkers) {
+                alert("This browser doesn't support Web Workers!");
+                return;
+            }
+            $("#btnStart").click(function () {
+               setInterval(testfunc,60000)
+
+            });
+            $("#btns").click(function (e) {
+
+
+
+            });
+
+            $("#tst").click(function (e) {
+
+              openserverlogs();
+
+            });
+
+
+            $("#delete").click(function (e) {
+                e.preventDefault();
+
+                console.log("clicked")
+             //   $(this).parents('tr').first().remove();
+
+
+            })
+            $("#recs").click(function (e) {
+                e.preventDefault();
+
+                console.log("clicked")
+                setInterval(checkserverlogs,60000);
+
+            })
+
+
+        });
+
+function testfunc() {
+
+    var worker = new Worker("javascripts/recordworker.js");
+    worker.addEventListener('message', function(e) {
+        console.log('Worker said: ', e.data);
+        worker.terminate();
+    }, false);
+    worker.postMessage('908');
+
+
+}
+function checkserverlogs(){
+    var worker = new Worker("javascripts/logworker.js");
+    worker.addEventListener('message', function(e) {
+        console.log('Worker said: ', e.data);
+        if(e.data!='404') {
+            console.log("entered");
+            document.getElementById("tst").disabled = false;
+        }
+        worker.terminate();
+    }, false);
+    worker.postMessage('3598');
+
+
+}
+
+function openserverlogs(){
+    window.open('errorlogs/' + 3598 + ".txt");
+
+}
+    </script>
+</head>
+<body>
+<form>
+    <input type="button" id="btnStart" value="Start Processing" />
+    <button type="button" id="delete">Delete</button>
+    <button type="button" id="recs">Open Records</button>
+    <button type="button" id="tst">Test Button</button>
+
+    <input type="text" name="users" id="user_id"><br>
+
+    <table id="items">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>DOB</th>
+        </tr>
+        </thead>
+    </table>
+</form>
+</body>
+</html>
