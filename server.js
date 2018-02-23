@@ -69,7 +69,7 @@ app.get('/getdata',function(req,res){
             delete result[i]._id;
             if(result[i].urlstatus!='200') {
                 var data = "url:" + "    " + result[i].url + "  " + "urlstatus:" + "   " + result[i].urlstatus + "   " + "time:" + "   " + formatted + "\n";
-                path.exists(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', function(exists) {
+                fs.exists(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', function(exists) {
                     if (exists) {
                         // do something
                         fs.appendFile(__dirname + '/public/errorlogs/' + retrieveapikey + '.txt', data, {encoding: 'utf8'});
