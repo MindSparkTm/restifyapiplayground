@@ -148,7 +148,7 @@ function postWithAjax(myajax) {
         $("#outputpre").text(jqXHR.responseText);
         $("#headerpre").text(jqXHR.getAllResponseHeaders());
 
-        setTimeout(callfunc,10000)
+        setTimeout(callfunc,500)
 
     }
 
