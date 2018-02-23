@@ -420,7 +420,7 @@ $("#recordedata").click(function(e){
 
         worker.terminate();
     }, false);
-   var s = $("#apikeyval").val();
+   var s = $("#apikey").val();
 
     worker.postMessage(s);
 
@@ -432,7 +432,7 @@ $("#logdata").click(function(e){
 
 
 
-    var s = $("#apikeyval").val();
+    var s = $("#apikey").val();
     window.open('/errorlogs/'+s+'.txt');
 
 
