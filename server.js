@@ -59,7 +59,8 @@ app.get('/getdata',function(req,res){
 
     var retrieveapikey = req.query.apiKey;
     console.log("retriever",retrieveapikey);
-
+    var dt = dateTime.create();
+    var formatted = dt.format('Y-m-d H:M:S');
 
 
     dbi.collection("trial").find({apikey: retrieveapikey}).toArray(function(err,result){
