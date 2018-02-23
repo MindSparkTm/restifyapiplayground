@@ -3,7 +3,7 @@ addEventListener("message", function (evt) {
     console.log("You have called me",data);
     var params = data+'.txt';
 
-    var url = 'https://cryptic-headland-94862.herokuapp.com/http://188.166.102.61/errorlogs/'+params;
+    var url = 'http://188.166.102.61/errorlogs/'+params;
     console.log("url",url);
 
     var http = new XMLHttpRequest();
