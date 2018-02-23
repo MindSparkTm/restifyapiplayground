@@ -12,6 +12,7 @@ var validapikey=false;
 var st;
 var gdata;
 var datavailable=false;
+document.getElementById("logdata").disabled = true;
 
 function guid() {
     function s4() {
@@ -414,7 +415,7 @@ $("#recordedata").click(function(e){
         console.log('Worker said: ', e.data);
         if(e.data!='404') {
             console.log("entered");
-            document.getElementById("tst").disabled = false;
+            document.getElementById("logdata").disabled = false;
         }
 
         worker.terminate();
@@ -426,7 +427,17 @@ $("#recordedata").click(function(e){
 
 
 })
+$("#logdata").click(function(e){
+    e.preventDefault();
 
+
+
+    var s = $("#apikeyval").val();
+    window.open('/errorlogs/'+s+'.txt');
+
+
+
+})
 
 function repeatbuttonclick(){
     setInterval(function(){
