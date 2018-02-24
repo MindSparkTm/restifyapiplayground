@@ -12,6 +12,7 @@ var validapikey=false;
 var st;
 var gdata;
 var datavailable=false;
+var temp=[];
 document.getElementById("logdata").disabled = true;
 
 function guid() {
@@ -294,10 +295,22 @@ function postwithAjax2(myajax){
 function savedatatoserver(){
     console.log("ENtered in saving data");
  flagforchecking=true;
+    var apikey = $("#apikey").val();
+
+    if(temp.length==0){
+    temp.push(apikey);
+}
+
+else{
+        if(temp[0]!=apikey){
+            document.getElementById("logdata").disabled = true;
+
+        }
+    }
+
     var retrievedObject = localStorage.getItem('endpointid');
 var endpointid = $("#endpointid").val();
 var outputpres = $("#outputpress").val();
-var apikey = $("#apikey").val();
 if(apikey.length>0) {
     if (endpointid.length > 0) {
         console.log("Ok Job done");
