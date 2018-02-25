@@ -18,9 +18,50 @@ var dbi;
 
 
 
-app.get('/', function (req, res) {
+app.get('/restify', function (req, res) {
     res.render('pages/home');});
 
+app.get('/', function (req, res) {
+    res.render('pages/restifylogin');});
+
+app.post('/register', function (req, res) {
+   // var apikey = req.body.Apikey;
+  //  var email= req.body.Email;
+    var loginbody = req.body;
+    dbi.collection('loginrestify').insert(loginbody, {safe:true}, function(err, result){
+        console.log("error",err);
+
+          console.log("result",result);
+        if(result.length==0){
+            res.send("failure");
+
+        }
+        else{
+            res.send( 'success');
+        }
+
+    });
+
+   
+});
+
+
+app.post('/verify',function(req,res){
+    console.log("Register");
+    var registerbody=req.body.apikey;
+    console.log(registerbody);
+   dbi.collection("loginrestify").find({user_Apikey: req.body.apikey}).toArray(function(err,result){
+       console.log("result",result);
+       if(result.length==0){
+           res.send("failure");
+
+       }
+       else{
+           res.send( 'success');
+       }
+
+    });
+})
 app.listen(process.env.PORT || 3000, function () {
     console.log('Example app listening on port 3000!');
     MongoClient.connect(MONGO_URL, function(err,db ) {
