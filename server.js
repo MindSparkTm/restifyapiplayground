@@ -22,7 +22,18 @@ app.get('/restify', function (req, res) {
     if(req.query.sessionid==null){
         res.render('pages/restifylogin')
     }
-    else{  res.render('pages/home');}}
+    else{
+        var sessionid = req.query.sessionid;
+
+        if(sessionid.length==36) {
+            res.render('pages/home');
+        }
+
+        else{
+            res.render('pages/restifylogin')
+
+        }
+    }}
   );
 
 app.get('/', function (req, res) {

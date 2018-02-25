@@ -96,6 +96,7 @@
                 if(data=='success'){
                     localStorage.setItem('apikey',apikey );
                     var sessionid= guid();
+                    console.log(sessionid.length);
                     window.location.href = "restify?apikey="+apikey+"&"+"sessionid="+sessionid;  // replace
 
 
