@@ -8,6 +8,8 @@ var datafromserver =[];
 var iddata = [];
 var flagforchecking = false;
 localStorage.setItem('endpointid',"1" );
+//console.log(localStorage.getItem(apikey));
+
 var validapikey=false;
 var st;
 var gdata;
@@ -25,8 +27,15 @@ function guid() {
         s4() + '-' + s4() + s4() + s4();
 }
 
+function getQueryStringValue (key) {
+    return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
 
+var apikeyfromquery= getQueryStringValue("apikey");
+console.log("apikey",apikeyfromquery);
+$('#apikeyval').val(apikeyfromquery);
 
+$('#apikey').val(apikeyfromquery);
 
 function checkdata(){
 

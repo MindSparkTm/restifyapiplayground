@@ -94,7 +94,10 @@
             success: function (data) {
                 console.log("success", data);
                 if(data=='success'){
-                    window.location.href = "restify";  // replace
+                    localStorage.setItem('apikey',apikey );
+                    var sessionid= guid();
+                    window.location.href = "restify?apikey="+apikey+"&"+"sessionid="+sessionid;  // replace
+
 
                 }
 
@@ -145,4 +148,13 @@
         });
 
     })
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    }
 </script>

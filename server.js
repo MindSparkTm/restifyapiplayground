@@ -19,7 +19,11 @@ var dbi;
 
 
 app.get('/restify', function (req, res) {
-    res.render('pages/home');});
+    if(req.query.sessionid==null){
+        res.render('pages/restifylogin')
+    }
+    else{  res.render('pages/home');}}
+  );
 
 app.get('/', function (req, res) {
     res.render('pages/restifylogin');});
