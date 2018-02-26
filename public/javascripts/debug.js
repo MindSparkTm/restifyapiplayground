@@ -189,7 +189,7 @@ function postWithAjax(myajax) {
 }
 
 function callfunc(){
-    var apikey = $("#apikeyval").val();
+    var apikey = $("#apikey").val();
     console.log("apikey",apikey);
     if(apikey!='-999') {
         console.log('Saved to db');
