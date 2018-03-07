@@ -63,7 +63,7 @@ app.get('/token',function(req,res) {
 app.post('/savetoken',function(req,res){
    var da = req.body;
    console.log("da",da)
-    dbi.collection('tokenapp').update(da, {safe:true}, function(err, result){
+    dbi.collection('tokenapp').update(da, {upsert : true }, function(err, result){
        // console.log("error",err);
 
       //  console.log("result",result);
