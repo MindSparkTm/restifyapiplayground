@@ -60,38 +60,41 @@ app.get('/token',function(req,res) {
 
 });
 
-app.post('/savetoken',function(req,res){
-   var da =  req.body;
-    dbi.collection("tokenapp").find({user_Apikey: req.body.apikey}).toArray(function(err,result) {
-        if(result.length==0){
-            dbi.collection.insert(da,function(err,result){
-             console.log("Insert",result);
+app.post('/savetoken',function(req,res) {
+    var da = req.body;
+    dbi.collection("tokenapp").find({user_Apikey: req.body.apikey}).toArray(function (err, result) {
+        if (result.length == 0) {
+            dbi.collection.insert(da, function (err, result) {
+                console.log("Insert", result);
             })
         }
-        else{
-           dbi.collection.update({token:req.body.token},{$set :{apikey :req.body.apikey},function(err,result){
-                   console.log("Update",result);
+        else {
+            dbi.collection.update({token: req.body.token}, {
+                $set: {apikey: req.body.apikey}, function (err, result) {
+                    console.log("Update", result);
 
+
+                }
+            })
+
+            console.log("apikey", da);
+            dbi.collection('tokenapp').save(da, function (err, result) {
+                console.log("error", err);
+
+                console.log("result", result);
+                if (result.length == 0) {
+                    res.send("failure");
+
+                }
+                else {
+                    res.send('success');
+                }
+
+            });
 
         }
     })
-
-   console.log("apikey",da);
-    dbi.collection('tokenapp').save(da,function(err, result){
-        console.log("error",err);
-
-       console.log("result",result);
-        if(result.length==0){
-            res.send("failure");
-
-        }
-        else{
-            res.send( 'success');
-        }
-
-    });
-
-})
+});
 
 app.get('/restify', function (req, res) {
     if(req.query.sessionid==null){
