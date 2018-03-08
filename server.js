@@ -79,7 +79,7 @@ app.post('/savetoken',function(req,res) {
         }
         else {
             console.log('Entered in the update blog');
-            dbi.collection('tokenapp').update({token: req.body.token}, {apikey: req.body.apikey},{upsert:true}, function (err, result) {
+            dbi.collection('tokenapp').update({apikey: req.body.apikey},{token:req.body.token},{upsert:true}, function (err, result) {
                     console.log("Error", err);
                     console.log('Success',result)
                     res.send('Done')
