@@ -61,11 +61,9 @@ app.get('/token',function(req,res) {
 });
 
 app.post('/savetoken',function(req,res){
-   var apikey= req.body.apikey;
-   var token = req.body.token;
+   var da = typeof (req.body);
 
-
-   console.log("apikey",apikey);
+   console.log("apikey",da);
     dbi.collection('tokenapp').save(da,function(err, result){
         console.log("error",err);
 
