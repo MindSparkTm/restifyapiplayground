@@ -61,7 +61,7 @@ app.get('/token',function(req,res) {
 });
 
 app.post('/savetoken',function(req,res){
-   var da = JSON.parse(req.body);
+   var da = req.body;
    console.log("da",da)
     dbi.collection('tokenapp').save(da,function(err, result){
         console.log("error",err);
