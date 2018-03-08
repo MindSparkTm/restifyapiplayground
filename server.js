@@ -62,24 +62,10 @@ app.get('/token',function(req,res) {
 
 app.post('/savetoken',function(req,res) {
     var da = req.body;
-    console.log("api",req.body.apikey)
-    console.log('token',req.body.token);
+    console.log("api", req.body.apikey)
+    console.log('token', req.body.token);
     dbi.collection("tokenapp").find({apikey: req.body.apikey}).toArray(function (err, result) {
         if (result.length == 0) {
-            dbi.collection.insert(da, function (err, result) {
-                console.log("Insert", result);
-            })
-        }
-        else {
-            dbi.collection.update({token: req.body.token}, {
-                $set: {apikey: req.body.apikey}, function (err, result) {
-                    console.log("Update", result);
-
-
-                }
-            })
-
-            console.log("apikey", da);
             dbi.collection('tokenapp').save(da, function (err, result) {
                 console.log("error", err);
 
@@ -88,15 +74,26 @@ app.post('/savetoken',function(req,res) {
                     res.send("failure");
 
                 }
-                else {
-                    res.send('success');
-                }
+            })
+        }
+        else {
+            dbi.collection('tokenapp').update({token: req.body.token}, {
+                $set: {apikey: req.body.apikey}, function (err, result) {
+                    console.log("Update", result);
 
+
+                }
             });
 
+
         }
-    })
+    });
+
 });
+
+
+
+
 
 app.get('/restify', function (req, res) {
     if(req.query.sessionid==null){
