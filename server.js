@@ -62,7 +62,9 @@ app.get('/token',function(req,res) {
 
 app.post('/savetoken',function(req,res) {
     var da = req.body;
-    dbi.collection("tokenapp").find({user_Apikey: req.body.apikey}).toArray(function (err, result) {
+    console.log("api",req.body.apikey)
+    console.log('token',req.body.token);
+    dbi.collection("tokenapp").find({apikey: req.body.apikey}).toArray(function (err, result) {
         if (result.length == 0) {
             dbi.collection.insert(da, function (err, result) {
                 console.log("Insert", result);
