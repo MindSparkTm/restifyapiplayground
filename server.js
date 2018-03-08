@@ -20,7 +20,43 @@ var dbi;
 
 
 
+function sendpushnotifications(){
+    var serverKey = 'AIzaSyAKrmH9--qdL591RBJflO_ARUu0j4TzmQ8';
+    var fcm = new FCM(serverKey);
+    var statsmes;
+    dbi.collection("trial").find({apikey: retrieveapikey}).toArray(function (err, result) {
+        console.log("result", result);
+        for (var i = 0; i < result.length; i++) {
+            delete result[i]._id;
+            if (result[i].urlstatus != '200') {
+                statsmes = 'One or more of your API returned a status other than 200'
+                var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                    to: 'emUj2cuW8B8:APA91bGgVmyXcDYZpIK8rOo0F_aeeLN7CDd10b4_Qy1agGLB3_eZ5VDpZ6UeXt_um5ZyOvuQ8Kp5Q-XvXxwoUjXY2sb2HHYHTPK74looMctWmpVcDJ-LSLWkCNqLBeZiCQ19Ct0C2W46',
+                    notification: {
+                        title: 'Title of your push notification',
+                        body: statsmes
+                    },
 
+                    data: {  //you can send only notification or only data(or include both)
+                        my_key: 'my value',
+                        my_another_key: 'my another value'
+                    }
+                };
+
+                fcm.send(message, function (err, response) {
+                    if (err) {
+                        console.log("Something has gone wrong!");
+                    } else {
+                        console.log("Successfully sent with response: ", response);
+                    }
+                });
+
+            }
+        }
+
+
+    });
+}
 app.get('/token',function(req,res) {
     var serverKey = 'AIzaSyAKrmH9--qdL591RBJflO_ARUu0j4TzmQ8';
     var fcm = new FCM(serverKey);
@@ -71,9 +107,14 @@ app.post('/savetoken',function(req,res) {
                 console.log("error", err);
 
                 console.log("result", result);
+
                 if (result.length == 0) {
                     res.send("failure");
 
+                }
+
+                else{
+                    res.send("success");
                 }
             })
         }
@@ -82,7 +123,7 @@ app.post('/savetoken',function(req,res) {
             dbi.collection('tokenapp').update({apikey: req.body.apikey},{apikey:req.body.apikey,token:req.body.token},{upsert:true}, function (err, result) {
                     console.log("Error", err);
                     console.log('Success',result)
-                    res.send('Done')
+                    res.send('success');
 
 
 
@@ -225,6 +266,8 @@ app.get('/getdata',function(req,res){
 
 
             }
+
+
         }
 
 
