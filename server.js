@@ -82,7 +82,9 @@ app.post('/savetoken',function(req,res) {
             dbi.collection('tokenapp').update({token: req.body.token}, {
 
                 $set: {apikey: req.body.apikey}, function (err, result) {
-                    console.log("Update", result);
+                    console.log("Error", err);
+                    console.log('Success',result)
+                    res.send('Done')
 
 
                 }
