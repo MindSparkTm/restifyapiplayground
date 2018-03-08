@@ -65,6 +65,7 @@ app.post('/savetoken',function(req,res) {
     console.log("api", req.body.apikey)
     console.log('token', req.body.token);
     dbi.collection("tokenapp").find({apikey: req.body.apikey}).toArray(function (err, result) {
+        console.log("Entered in 1");
         if (result.length == 0) {
             dbi.collection('tokenapp').save(da, function (err, result) {
                 console.log("error", err);
@@ -77,7 +78,9 @@ app.post('/savetoken',function(req,res) {
             })
         }
         else {
+            console.log('Entered in the update blog');
             dbi.collection('tokenapp').update({token: req.body.token}, {
+
                 $set: {apikey: req.body.apikey}, function (err, result) {
                     console.log("Update", result);
 
